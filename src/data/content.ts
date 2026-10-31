@@ -63,14 +63,27 @@ export const BRAND_CONTENT = {
     emailHref: "mailto:contact@alsek.fr",
     website: "www.alsek.fr",
     websiteDisplay: "WWW.ALSEK.FR",
-    /** Zone géographique (mise à jour dès réception de la ville / région cible) */
-    serviceArea: "France",
+    city: "Villefranche-sur-Saône",
+    postalCode: "69400",
+    serviceArea: "Villefranche-sur-Saône, Beaujolais, Lyon & alentours",
     socials: ["Facebook", "Instagram", "TikTok", "LinkedIn"] as const,
     socialLinks: [
-      { name: "Facebook", href: "" },
-      { name: "Instagram", href: "" },
-      { name: "TikTok", href: "" },
-      { name: "LinkedIn", href: "" },
+      {
+        name: "Facebook",
+        href: "https://www.facebook.com/profile.php?id=61590401673262",
+      },
+      {
+        name: "Instagram",
+        href: "https://www.instagram.com/alsek.marketing",
+      },
+      {
+        name: "TikTok",
+        href: "https://www.tiktok.com/@alsek.marketing",
+      },
+      {
+        name: "LinkedIn",
+        href: "https://fr.linkedin.com/company/alsek-marketing-digital",
+      },
     ] as SocialLinkItem[],
   },
 
@@ -86,13 +99,13 @@ export const BRAND_CONTENT = {
   },
 
   hero: {
-    topBadge: "AGENCE DE CRÉATION VISUELLE & VIRALITÉ",
+    topBadge: "AGENCE CRÉATION CONTENU & VIDÉO • VILLEFRANCHE-SUR-SAÔNE & ALENTOURS",
     titleHighlight: "1 MOIS DE CONTENU",
     titleRest: "À POSTER TOUS LES JOURS SUR VOS RÉSEAUX SOCIAUX !",
     fullTitle:
       "1 MOIS DE CONTENU À POSTER TOUS LES JOURS SUR VOS RÉSEAUX SOCIAUX !",
     subtitle:
-      "Arrêtez de poster dans le vide. Nous tournons, scénarisons et produisons 30 jours de photos, stories et vidéos verticales conçus pour capter l'attention et faire passer vos clients à l'action.",
+      "Arrêtez de poster dans le vide. Nous nous déplaçons à Villefranche-sur-Saône et alentours (Beaujolais, Lyon) pour tourner, scénariser et produire 30 jours de photos, stories et vidéos verticales conçus pour faire passer vos clients à l'action.",
     primaryCta: "Découvrir nos 3 offres",
     secondaryCta: "Voir nos réalisations ↓",
     /** Vidéo backstage en surimpression basse opacité (fond du Hero sur desktop) */
@@ -100,7 +113,7 @@ export const BRAND_CONTENT = {
     showreelPoster: "/videos/posters/hero-showreel.webp",
     metrics: [
       { value: "30 JOURS", label: "De présence continue" },
-      { value: "1 TOURNAGE", label: "Studio mobile chez vous" },
+      { value: "1 TOURNAGE", label: "Villefranche & alentours" },
       { value: "9:16 NATIF", label: "Optimisé Reels & TikTok" },
     ],
   },
@@ -270,7 +283,7 @@ export const BRAND_CONTENT = {
         number: "02",
         title: "Production Studio Mobile",
         description:
-          "Déplacement dans vos locaux avec éclairage studio, caméras cinéma et prise de son professionnelle.",
+          "Déplacement dans vos locaux à Villefranche-sur-Saône et alentours (Beaujolais, Lyon, Rhône & Ain) avec éclairage studio, caméras cinéma et prise de son professionnelle.",
         highlightTag: "Demi-journée sans bloquer votre activité",
       },
       {
@@ -344,6 +357,11 @@ export const BRAND_CONTENT = {
     surtitle: "QUESTIONS FRÉQUENTES",
     title: "TOUT SAVOIR AVANT DE LANCER VOTRE MOIS DE CONTENU.",
     items: [
+      {
+        question: "Dans quelle zone géographique vous déplacez-vous pour les tournages ?",
+        answer:
+          "Nous sommes basés à Villefranche-sur-Saône (69400) et nous nous déplaçons directement dans votre établissement sur tout le secteur caladois, le Beaujolais, la métropole de Lyon, le Rhône et l'Ain limitrophe.",
+      },
       {
         question: "Combien de temps dure le tournage dans mon entreprise ?",
         answer:

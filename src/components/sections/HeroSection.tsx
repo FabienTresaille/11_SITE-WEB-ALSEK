@@ -36,6 +36,14 @@ const SOCIAL_BADGES: SocialBadgeConfig[] = [
   { type: "linkedin", className: "bottom-[24%] right-[8%] xl:right-[13%]", depth: 1.4, delay: 1.2, rotate: -8 },
 ];
 
+const SOCIAL_URL_BY_TYPE: Record<string, { href: string; label: string }> =
+  Object.fromEntries(
+    BRAND_CONTENT.identity.socialLinks.map((s) => [
+      s.name.toLowerCase(),
+      { href: s.href, label: `Suivre alsek sur ${s.name}` },
+    ])
+  );
+
 function ParallaxBadge({
   config,
   mouseX,
@@ -57,16 +65,23 @@ function ParallaxBadge({
     [mouseOffsetY, scrollOffsetY] as MotionValue<number>[],
     ([m, s]: number[]) => m + s
   );
+  const linkMeta = SOCIAL_URL_BY_TYPE[config.type];
 
   return (
     <motion.div
       style={{ x, y, rotate: config.rotate }}
       initial={{ opacity: 0, scale: 0.4 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.6 + config.delay * 0.4, type: "spring", bounce: 0.45 }}
-      className={`hidden md:block absolute z-[5] ${config.className}`}
+      transition={{ duration: 0.7, delay: 0.3 + config.delay * 0.25, type: "spring", bounce: 0.45 }}
+      className={`hidden md:block absolute z-20 ${config.className}`}
     >
-      <FloatingBadge type={config.type} size="md" delay={config.delay} />
+      <FloatingBadge
+        type={config.type}
+        size="md"
+        delay={config.delay}
+        href={linkMeta?.href}
+        label={linkMeta?.label}
+      />
     </motion.div>
   );
 }
@@ -345,11 +360,21 @@ export default function HeroSection() {
           </MagneticButton>
         </motion.div>
 
-        {/* Icônes réseaux (mobile uniquement, les badges flottants étant masqués) */}
+        {/* Icônes réseaux cliquables (mobile uniquement, les badges flottants étant masqués) */}
         <div className="md:hidden mt-6 flex items-center justify-center gap-2.5">
-          {SOCIAL_BADGES.map((b) => (
-            <FloatingBadge key={b.type} type={b.type} size="sm" delay={b.delay} />
-          ))}
+          {SOCIAL_BADGES.map((b) => {
+            const linkMeta = SOCIAL_URL_BY_TYPE[b.type];
+            return (
+              <FloatingBadge
+                key={b.type}
+                type={b.type}
+                size="sm"
+                delay={b.delay}
+                href={linkMeta?.href}
+                label={linkMeta?.label}
+              />
+            );
+          })}
         </div>
 
         {/* Métriques */}

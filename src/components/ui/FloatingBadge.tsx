@@ -17,6 +17,8 @@ interface FloatingBadgeProps {
   className?: string;
   delay?: number;
   size?: "sm" | "md" | "lg";
+  href?: string;
+  label?: string;
 }
 
 export default function FloatingBadge({
@@ -24,6 +26,8 @@ export default function FloatingBadge({
   className = "",
   delay = 0,
   size = "md",
+  href,
+  label,
 }: FloatingBadgeProps) {
   const sizeClasses = {
     sm: "w-8 h-8",
@@ -97,6 +101,29 @@ export default function FloatingBadge({
         );
     }
   };
+
+  if (href) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={label ?? type}
+        initial={{ y: 0, rotate: -3 }}
+        animate={{ y: [-4, 4, -4], rotate: [-3, 3, -3] }}
+        whileHover={{ scale: 1.12 }}
+        transition={{
+          duration: 4.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay,
+        }}
+        className={`inline-block cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] rounded-xl ${className}`}
+      >
+        {renderBadgeContent()}
+      </motion.a>
+    );
+  }
 
   return (
     <motion.div

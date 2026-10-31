@@ -117,12 +117,14 @@ export default function Footer({
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/20 flex items-center justify-between text-[11px] font-bold uppercase tracking-widest">
+                <div className="mt-6 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-2 text-[11px] font-bold uppercase tracking-widest">
                   <span className="inline-flex items-center gap-1.5">
                     <Globe className="w-3.5 h-3.5 text-[#00E676]" />
                     {BRAND_CONTENT.footer.domain}
                   </span>
-                  <span className="text-white/80">ACCOMPAGNEMENT SUR-MESURE</span>
+                  <span className="text-white/90">
+                    {BRAND_CONTENT.identity.city} &amp; ALENTOURS
+                  </span>
                 </div>
               </div>
             </div>

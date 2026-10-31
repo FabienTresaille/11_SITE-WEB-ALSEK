@@ -2,7 +2,7 @@ import React from "react";
 import { BRAND_CONTENT } from "@/data/content";
 
 /**
- * Données structurées Schema.org (MarketingAgency + FAQPage) injectées côté serveur.
+ * Données structurées Schema.org (ProfessionalService localisé + FAQPage) injectées côté serveur.
  */
 export default function JsonLd() {
   const activeSocialUrls = BRAND_CONTENT.identity.socialLinks
@@ -20,7 +20,20 @@ export default function JsonLd() {
         url: "https://www.alsek.fr",
         telephone: "+33614308801",
         email: BRAND_CONTENT.identity.email,
-        areaServed: BRAND_CONTENT.identity.serviceArea,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: BRAND_CONTENT.identity.city,
+          postalCode: BRAND_CONTENT.identity.postalCode,
+          addressRegion: "Auvergne-Rhône-Alpes",
+          addressCountry: "FR",
+        },
+        areaServed: [
+          "Villefranche-sur-Saône",
+          "Beaujolais",
+          "Lyon",
+          "Rhône",
+          "Ain",
+        ],
         description: BRAND_CONTENT.hero.subtitle,
         ...(activeSocialUrls.length > 0 ? { sameAs: activeSocialUrls } : {}),
       },
