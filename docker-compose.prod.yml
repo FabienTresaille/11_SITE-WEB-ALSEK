@@ -1,0 +1,42 @@
+# =============================================================================
+# alsek — Production VPS OVH derrière Traefik v3
+#   docker compose -f docker-compose.prod.yml up -d --build
+# Prérequis :
+#   - Réseau Docker externe `edge-public-net` partagé avec Traefik
+#   - certresolver `letsencrypt` et middleware `sec-headers@file` déclarés côté Traefik
+#   - Fichier `.env` (copie de .env.example) à côté de ce fichier
+# =============================================================================
+services:
+  alsek-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+        NEXT_PUBLIC_META_PIXEL_ID: ${NEXT_PUBLIC_META_PIXEL_ID:-}
+    image: alsek-site:latest
+    container_name: app-alsek-prod
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    networks:
+      - edge-public-net
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=edge-public-net"
+      - "traefik.http.routers.alsek.rule=Host(`alsek.fr`) || Host(`www.alsek.fr`)"
+      - "traefik.http.routers.alsek.entrypoints=websecure"
+      - "traefik.http.routers.alsek.tls=true"
+      - "traefik.http.routers.alsek.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.alsek.middlewares=alsek-www-redirect,sec-headers@file"
+      - "traefik.http.middlewares.alsek-www-redirect.redirectregex.regex=^https://alsek\\.fr/(.*)"
+      - "traefik.http.middlewares.alsek-www-redirect.redirectregex.replacement=https://www.alsek.fr/$${1}"
+      - "traefik.http.middlewares.alsek-www-redirect.redirectregex.permanent=true"
+      - "traefik.http.services.alsek.loadbalancer.server.port=3000"
+
+networks:
+  edge-public-net:
+    external: true

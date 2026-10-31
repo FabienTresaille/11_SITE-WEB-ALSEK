@@ -1,0 +1,22 @@
+# =============================================================================
+# alsek — Test local du conteneur de production
+#   docker compose -f docker-compose.local.yml up --build -d
+#   → http://localhost:3000
+# =============================================================================
+services:
+  alsek-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+        NEXT_PUBLIC_META_PIXEL_ID: ${NEXT_PUBLIC_META_PIXEL_ID:-}
+    image: alsek-site:local
+    container_name: app-alsek-local
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      NODE_ENV: production
