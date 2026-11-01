@@ -205,30 +205,55 @@ export default function VideoCard916({
   const [hasError, setHasError] = useState(false);
   const [duration, setDuration] = useState("");
   const [showSoundToast, setShowSoundToast] = useState(false);
+  /** N'attache le fichier MP4 que lorsque la carte entre à l'écran / au survol / au tap */
+  const [attachSrc, setAttachSrc] = useState(false);
 
   const isVideo = item.mediaType === "video";
 
   const safePlay = useCallback(() => {
     const video = videoRef.current;
     if (!video || hasError) return;
+    if (!video.getAttribute("src")) {
+      video.setAttribute("src", item.src);
+    }
+    setAttachSrc(true);
     video.play().catch(() => {
       /* lecture bloquée par le navigateur : on reste sur la vignette */
     });
-  }, [hasError]);
+  }, [hasError, item.src]);
 
   const pause = useCallback(() => {
     videoRef.current?.pause();
   }, []);
 
+  /* Pré-attache le MP4 uniquement à l'approche du viewport (zéro requête vidéo au chargement initial du Hero) */
+  useEffect(() => {
+    if (!isVideo || hasError || attachSrc) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const preloadObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAttachSrc(true);
+          preloadObserver.disconnect();
+        }
+      },
+      { rootMargin: "180px 0px" }
+    );
+    preloadObserver.observe(el);
+    return () => preloadObserver.disconnect();
+  }, [isVideo, hasError, attachSrc]);
+
   /* Synchronisation initiale si les métadonnées vidéo sont déjà en cache à l'hydratation */
   useEffect(() => {
-    if (!isVideo) return;
+    if (!isVideo || !attachSrc) return;
     const video = videoRef.current;
     if (video && video.readyState >= 1) {
       setIsReady(true);
       if (video.duration) setDuration(formatDuration(video.duration));
     }
-  }, [isVideo, item.src]);
+  }, [isVideo, attachSrc, item.src]);
 
   /* Barre de progression fluide (rAF) pendant la lecture */
   useEffect(() => {
@@ -262,7 +287,7 @@ export default function VideoCard916({
           if (isSoundOn) onSoundChange(null);
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.7 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -298,7 +323,11 @@ export default function VideoCard916({
       if (video) video.muted = true;
       onSoundChange(null);
     } else {
+      setAttachSrc(true);
       if (video) {
+        if (!video.getAttribute("src")) {
+          video.setAttribute("src", item.src);
+        }
         video.currentTime = 0;
         video.muted = false;
         video.play().catch(() => {});
@@ -345,17 +374,26 @@ export default function VideoCard916({
           <MediaFallback item={item} index={index} />
         ) : isVideo ? (
           <>
-            {!isReady && !item.poster && (
+            {item.poster ? (
+              <Image
+                src={item.poster}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                aria-hidden="true"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            ) : !isReady ? (
               <div className="absolute inset-0 bg-[#0d1130] shimmer" aria-hidden="true" />
-            )}
+            ) : null}
             <video
               ref={videoRef}
-              src={item.src}
+              src={attachSrc ? item.src : undefined}
               poster={item.poster}
               playsInline
               muted
               loop
-              preload="none"
+              preload="metadata"
               onLoadedMetadata={(e) => {
                 setDuration(formatDuration(e.currentTarget.duration));
                 setIsReady(true);
@@ -366,7 +404,7 @@ export default function VideoCard916({
               onPause={() => setIsPlaying(false)}
               onError={() => setHasError(true)}
               className={`absolute inset-0 w-full h-full object-cover transition-[opacity,transform] duration-500 group-hover:scale-[1.03] ${
-                isReady || Boolean(item.poster) ? "opacity-100" : "opacity-0"
+                isReady ? "opacity-100" : "opacity-0"
               }`}
             />
           </>
@@ -375,7 +413,7 @@ export default function VideoCard916({
             src={item.src}
             alt={`${item.title} — ${item.client}`}
             fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 25vw, 50vw"
             onError={() => setHasError(true)}
             className="object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110"
           />

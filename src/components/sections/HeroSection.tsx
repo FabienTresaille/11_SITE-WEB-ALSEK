@@ -222,9 +222,9 @@ export default function HeroSection() {
           className="absolute top-[8%] right-[6%] w-[420px] h-[760px] origin-top-right rotate-[28deg] blur-3xl"
           style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,230,118,0.05) 40%, transparent 80%)" }}
         />
-        {/* Halos colorés d'ambiance */}
-        <div className="absolute top-[-10%] left-[18%] w-[480px] h-[480px] bg-[#1E3AFF]/25 rounded-full blur-[150px]" />
-        <div className="absolute top-[35%] right-[10%] w-[380px] h-[380px] bg-[#00E676]/10 rounded-full blur-[150px]" />
+        {/* Halos colorés d'ambiance (allégés sur GPU mobile) */}
+        <div className="absolute top-[-10%] left-[18%] w-[320px] md:w-[480px] h-[320px] md:h-[480px] bg-[#1E3AFF]/25 rounded-full blur-3xl md:blur-[150px]" />
+        <div className="absolute top-[35%] right-[10%] w-[260px] md:w-[380px] h-[260px] md:h-[380px] bg-[#00E676]/10 rounded-full blur-3xl md:blur-[150px]" />
 
         {/* Silhouettes trépieds + softbox */}
         <div className="hidden lg:block absolute bottom-0 left-[1%] opacity-40">
@@ -242,9 +242,9 @@ export default function HeroSection() {
         className="pointer-events-none absolute inset-0 -z-10 hidden md:block"
       />
 
-      {/* Grille de points + grain film + fondu bas */}
+      {/* Grille de points + grain film (desktop uniquement pour fluidité GPU mobile) + fondu bas */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-studio-grain [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] film-grain opacity-[0.07]" />
+      <div aria-hidden="true" className="hidden md:block pointer-events-none absolute inset-0 z-[1] film-grain opacity-[0.07]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-40 z-[1] bg-gradient-to-t from-[#0B0F29] to-transparent" />
 
       {/* ---------- COUCHE 3 : badges sociaux en parallaxe ---------- */}
@@ -259,18 +259,13 @@ export default function HeroSection() {
         />
       ))}
 
-      {/* ---------- COUCHE 4 : contenu ---------- */}
+      {/* ---------- COUCHE 4 : contenu visible dès le 1er paquet HTML (zéro écran vide avant hydratation JS) ---------- */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
         className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
         {/* Badge supérieur avec indicateur « REC » */}
-        <motion.div
-          initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-md mb-5"
-        >
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-md mb-5">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF3B5C] opacity-75 animate-ping" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF3B5C]" />
@@ -278,21 +273,16 @@ export default function HeroSection() {
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/90">
             {BRAND_CONTENT.hero.topBadge}
           </span>
-        </motion.div>
+        </div>
 
-        {/* H1 cinétique aux proportions équilibrées */}
+        {/* H1 immédiatement lisible dès le SSR */}
         <h1 className="font-extrabold uppercase tracking-tight leading-[1.06] text-white">
           {/* Phrase clé en vert néon, sur sa propre ligne */}
           <span className="relative block text-3xl sm:text-5xl md:text-[3.35rem] lg:text-[3.85rem]">
-            <span className="block overflow-hidden pb-1.5">
-              <motion.span
-                initial={{ y: "65%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 0.55, delay: 0.04, ease: [0.16, 1, 0.3, 1] }}
-                className="inline-block neon-text"
-              >
+            <span className="block pb-1.5">
+              <span className="inline-block neon-text">
                 {BRAND_CONTENT.hero.titleHighlight}
-              </motion.span>
+              </span>
             </span>
             {/* Trait néon dessiné sous la phrase clé */}
             <svg
@@ -307,49 +297,32 @@ export default function HeroSection() {
                 stroke="#00E676"
                 strokeWidth="4"
                 strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
+                initial={{ pathLength: 0.25, opacity: 0.85 }}
                 animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 0.65, delay: 0.35, ease: "easeInOut" }}
+                transition={{ duration: 0.65, ease: "easeInOut" }}
                 style={{ filter: "drop-shadow(0 0 6px rgba(0,230,118,0.75))" }}
               />
             </svg>
           </span>
 
-          {/* Reste du titre, révélé rapidement */}
+          {/* Reste du titre */}
           <span className="mt-3 sm:mt-4 block text-lg sm:text-2xl md:text-[1.7rem] lg:text-[2rem] leading-[1.18]">
             {titleWords.map((word, i) => (
-              <span key={`${word}-${i}`} className="inline-block overflow-hidden align-bottom">
-                <motion.span
-                  initial={{ y: "75%" }}
-                  animate={{ y: "0%" }}
-                  transition={{ duration: 0.45, delay: 0.12 + i * 0.025, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-block"
-                >
-                  {word}
-                  {i < titleWords.length - 1 ? "\u00A0" : ""}
-                </motion.span>
+              <span key={`${word}-${i}`} className="inline-block align-bottom">
+                {word}
+                {i < titleWords.length - 1 ? "\u00A0" : ""}
               </span>
             ))}
           </span>
         </h1>
 
-        {/* Sous-titre (rendu rapide pour optimiser le LCP mobile) */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.18 }}
-          className="mt-5 max-w-xl mx-auto text-sm sm:text-[15px] text-white/85 leading-relaxed"
-        >
+        {/* Sous-titre (affiché instantanément dès le HTML SSR) */}
+        <p className="mt-5 max-w-xl mx-auto text-sm sm:text-[15px] text-white/85 leading-relaxed">
           {BRAND_CONTENT.hero.subtitle}
-        </motion.p>
+        </p>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.26 }}
-          className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3"
-        >
+        <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
           <MagneticButton href="#offres" variant="primary" ariaLabel={BRAND_CONTENT.hero.primaryCta}>
             <span>{BRAND_CONTENT.hero.primaryCta}</span>
             <ArrowRight className="w-4 h-4" />
@@ -358,7 +331,7 @@ export default function HeroSection() {
             <Play className="w-3.5 h-3.5 text-[#00E676] fill-[#00E676]" />
             <span>{BRAND_CONTENT.hero.secondaryCta}</span>
           </MagneticButton>
-        </motion.div>
+        </div>
 
         {/* Icônes réseaux cliquables (mobile uniquement, les badges flottants étant masqués) */}
         <div className="md:hidden mt-6 flex items-center justify-center gap-2.5">
@@ -378,12 +351,7 @@ export default function HeroSection() {
         </div>
 
         {/* Métriques */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.34 }}
-          className="mt-10 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto"
-        >
+        <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
           {BRAND_CONTENT.hero.metrics.map((metric, idx) => {
             const Icon = idx === 0 ? Sparkles : idx === 1 ? Camera : Film;
             return (
@@ -399,7 +367,7 @@ export default function HeroSection() {
               </div>
             );
           })}
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );

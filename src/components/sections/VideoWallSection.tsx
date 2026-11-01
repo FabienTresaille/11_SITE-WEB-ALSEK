@@ -66,7 +66,7 @@ export default function VideoWallSection() {
       {/* Ambiance */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-32 left-1/2 -translate-x-1/2 w-[750px] h-[420px] bg-[#1E3AFF]/15 blur-[150px] rounded-full"
+        className="pointer-events-none absolute top-32 left-1/2 -translate-x-1/2 w-[360px] md:w-[750px] h-[260px] md:h-[420px] bg-[#1E3AFF]/15 blur-3xl md:blur-[150px] rounded-full"
       />
 
       <div className="relative max-w-5xl mx-auto px-3.5 sm:px-6 lg:px-8">
@@ -160,7 +160,7 @@ export default function VideoWallSection() {
           layout
           className="grid grid-cols-2 lg:grid-cols-4 gap-x-2.5 sm:gap-x-5 gap-y-4 sm:gap-y-7 mx-auto"
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence initial={false} mode="popLayout">
             {visibleItems.map((item, idx) => (
               <motion.div
                 key={item.id}
@@ -169,7 +169,9 @@ export default function VideoWallSection() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.2 } }}
                 transition={{ duration: 0.38, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
-                className={idx % 2 === 1 ? "lg:mt-6" : ""}
+                className={`${!expandedMobile && idx >= MOBILE_INITIAL_COUNT ? "hidden sm:block " : ""}${
+                  idx % 2 === 1 ? "lg:mt-6" : ""
+                }`}
               >
                 <VideoCard916
                   item={item}

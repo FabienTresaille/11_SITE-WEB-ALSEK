@@ -31,10 +31,14 @@ services:
       - "traefik.http.routers.alsek.entrypoints=websecure"
       - "traefik.http.routers.alsek.tls=true"
       - "traefik.http.routers.alsek.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.alsek.middlewares=alsek-www-redirect,sec-headers@file"
+      - "traefik.http.routers.alsek.middlewares=alsek-www-redirect,sec-headers@file,alsek-headers"
       - "traefik.http.middlewares.alsek-www-redirect.redirectregex.regex=^https://alsek\\.fr/(.*)"
       - "traefik.http.middlewares.alsek-www-redirect.redirectregex.replacement=https://www.alsek.fr/$${1}"
       - "traefik.http.middlewares.alsek-www-redirect.redirectregex.permanent=true"
+      # Purge HTTP/3 QUIC tant que 443/udp est fermé sur le VPS (évite le timeout de 45s sur mobile)
+      # et retire le X-Robots-Tag: none hérité de sec-headers@file pour autoriser Google à indexer le site
+      - "traefik.http.middlewares.alsek-headers.headers.customresponseheaders.Alt-Svc=clear"
+      - "traefik.http.middlewares.alsek-headers.headers.customresponseheaders.X-Robots-Tag="
       - "traefik.http.services.alsek.loadbalancer.server.port=3000"
 
 networks:
