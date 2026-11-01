@@ -12,20 +12,26 @@ export default function OfferConversionFlow({
   topSections: React.ReactNode;
 }) {
   const [selectedOffer, setSelectedOffer] = useState<string>("evolution");
+  const [hasExplicitSelection, setHasExplicitSelection] = useState<boolean>(false);
+
+  const handleUserSelectOffer = (offerId: string) => {
+    setSelectedOffer(offerId);
+    setHasExplicitSelection(true);
+  };
 
   return (
     <>
       <main>
         {topSections}
         <PricingSection
-          selectedOffer={selectedOffer}
-          onSelectOffer={setSelectedOffer}
+          selectedOffer={hasExplicitSelection ? selectedOffer : null}
+          onSelectOffer={handleUserSelectOffer}
         />
         <FaqSection />
       </main>
       <Footer
         selectedOffer={selectedOffer}
-        onSelectOffer={setSelectedOffer}
+        onSelectOffer={handleUserSelectOffer}
       />
       <MobileActionBar />
     </>

@@ -16,6 +16,7 @@ import {
   Wifi,
   BatteryFull,
   ImageIcon,
+  ZoomIn,
 } from "lucide-react";
 import type { VideoShowcaseItem } from "@/data/content";
 
@@ -26,6 +27,8 @@ interface VideoCard916Props {
   isSoundOn: boolean;
   /** Demande l'activation (id) ou la coupure (null) du son */
   onSoundChange: (id: string | null) => void;
+  /** Ouvre l'aperçu plein écran (lightbox) pour les cartes Photos */
+  onOpenPhoto?: (item: VideoShowcaseItem) => void;
 }
 
 const FALLBACK_GRADIENTS = [
@@ -194,6 +197,7 @@ export default function VideoCard916({
   index,
   isSoundOn,
   onSoundChange,
+  onOpenPhoto,
 }: VideoCard916Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -315,9 +319,13 @@ export default function VideoCard916({
     if (isVideo && !isSoundOn) pause();
   };
 
-  /* Activation synchrone du son et remise à zéro (currentTime = 0) au clic (AGENTS.md §4) */
+  /* Activation synchrone du son (vidéo) ou ouverture lightbox (photo) au clic */
   const handleActivate = () => {
-    if (!isVideo || hasError) return;
+    if (hasError) return;
+    if (!isVideo) {
+      onOpenPhoto?.(item);
+      return;
+    }
     const video = videoRef.current;
     if (isSoundOn) {
       if (video) video.muted = true;
@@ -339,6 +347,7 @@ export default function VideoCard916({
   };
 
   const clientInitials = initials(item.client);
+  const isInteractive = isVideo || Boolean(onOpenPhoto);
 
   return (
     <motion.div
@@ -352,20 +361,20 @@ export default function VideoCard916({
           handleActivate();
         }
       }}
-      role={isVideo ? "button" : "figure"}
-      tabIndex={isVideo ? 0 : -1}
+      role={isInteractive ? "button" : "figure"}
+      tabIndex={isInteractive ? 0 : -1}
       aria-label={
         isVideo
           ? `${item.title} — ${item.client}. ${
               isSoundOn ? "Couper le son" : "Activer le son et relire depuis le début"
             }`
-          : `${item.title} — ${item.client}`
+          : `${item.title} — ${item.client}. Agrandir la photo en plein écran`
       }
       aria-pressed={isVideo ? isSoundOn : undefined}
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
       className={`group relative select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] rounded-[1.9rem] ${
-        isVideo ? "cursor-pointer" : "cursor-default"
+        isInteractive ? "cursor-pointer" : "cursor-default"
       }`}
     >
       <PhoneFrame live={isPlaying} soundActive={isSoundOn}>
@@ -411,7 +420,7 @@ export default function VideoCard916({
         ) : (
           <Image
             src={item.src}
-            alt={`${item.title} — ${item.client}`}
+            alt={`${item.title} — ${item.client} (Création contenu Villefranche-sur-Saône)`}
             fill
             sizes="(min-width: 1024px) 25vw, 50vw"
             onError={() => setHasError(true)}
@@ -465,6 +474,15 @@ export default function VideoCard916({
               ) : (
                 <VolumeX className="w-3.5 h-3.5" />
               )}
+            </span>
+          )}
+
+          {!isVideo && !hasError && onOpenPhoto && (
+            <span
+              aria-hidden="true"
+              className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center backdrop-blur-md bg-black/45 text-white border border-white/20 group-hover:border-[#00E676] group-hover:text-[#00E676] transition-colors"
+            >
+              <ZoomIn className="w-3.5 h-3.5" />
             </span>
           )}
         </div>
@@ -533,6 +551,11 @@ export default function VideoCard916({
           {isVideo && !hasError && (
             <p className="mt-1.5 text-[9px] font-semibold uppercase tracking-wider text-[#00E676] opacity-80 group-hover:opacity-100 transition-opacity">
               {isSoundOn ? "Cliquer pour couper le son" : "Cliquer pour activer le son 🔊"}
+            </p>
+          )}
+          {!isVideo && !hasError && onOpenPhoto && (
+            <p className="mt-1.5 text-[9px] font-semibold uppercase tracking-wider text-[#00E676] opacity-80 group-hover:opacity-100 transition-opacity">
+              Cliquer pour agrandir
             </p>
           )}
         </div>

@@ -15,7 +15,7 @@ import { BRAND_CONTENT, type OfferItem } from "@/data/content";
 import FloatingBadge from "@/components/ui/FloatingBadge";
 
 interface PricingSectionProps {
-  selectedOffer: string;
+  selectedOffer: string | null;
   onSelectOffer: (offerId: string) => void;
 }
 
@@ -103,12 +103,12 @@ function OfferRow({
           </motion.span>
         )}
 
-        {/* Pastille « Offre sélectionnée » */}
+        {/* Pastille « Offre sélectionnée » (affichée uniquement après un clic réel) */}
         {isSelected && (
           <motion.span
             layoutId="offer-selected-tag"
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
-            className="absolute -top-3.5 right-5 lg:right-[245px] z-30 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#0B0F29] text-[10px] font-extrabold uppercase tracking-wider shadow-md"
+            className="absolute -top-3.5 right-3 sm:right-5 lg:right-[245px] z-30 inline-flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-white text-[#0B0F29] text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider shadow-md"
           >
             <CheckCircle2 className="w-3 h-3 text-[#00E676]" />
             Offre sélectionnée

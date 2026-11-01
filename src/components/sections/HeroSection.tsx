@@ -188,7 +188,8 @@ export default function HeroSection() {
           alt=""
           fill
           priority
-          sizes="100vw"
+          quality={65}
+          sizes="(max-width: 768px) 640px, 1280px"
           aria-hidden="true"
           className="pointer-events-none -z-20 object-cover opacity-[0.12] grayscale"
         />
@@ -331,23 +332,6 @@ export default function HeroSection() {
             <Play className="w-3.5 h-3.5 text-[#00E676] fill-[#00E676]" />
             <span>{BRAND_CONTENT.hero.secondaryCta}</span>
           </MagneticButton>
-        </div>
-
-        {/* Icônes réseaux cliquables (mobile uniquement, les badges flottants étant masqués) */}
-        <div className="md:hidden mt-6 flex items-center justify-center gap-2.5">
-          {SOCIAL_BADGES.map((b) => {
-            const linkMeta = SOCIAL_URL_BY_TYPE[b.type];
-            return (
-              <FloatingBadge
-                key={b.type}
-                type={b.type}
-                size="sm"
-                delay={b.delay}
-                href={linkMeta?.href}
-                label={linkMeta?.label}
-              />
-            );
-          })}
         </div>
 
         {/* Métriques */}

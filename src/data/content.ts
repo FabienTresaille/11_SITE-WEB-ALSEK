@@ -127,9 +127,10 @@ export const BRAND_CONTENT = {
 
   videoWall: {
     surtitle: "L'ATTENTION EST LA NOUVELLE MONNAIE",
-    title: "ILS ONT CHOISI DE MARQUER LES ESPRITS.",
+    title: "ILS ONT CHOISI DE MARQUER LES ESPRITS À VILLEFRANCHE & ALENTOURS.",
     subtitle:
-      "Un aperçu concret des Shorts, Reels, vidéos verticales scénarisées et shootings réalisés pour nos clients.",
+      "Un aperçu concret des Shorts, Reels, vidéos verticales scénarisées et shootings réalisés pour nos clients locaux.",
+    bottomCta: "Obtenir le même résultat pour mon commerce",
     filters: [
       { id: "all", label: "Tous" },
       { id: "shorts", label: "Shorts / Reels (15 sec)" },
@@ -269,8 +270,8 @@ export const BRAND_CONTENT = {
   },
 
   process: {
-    surtitle: "ZÉRO CHARGE MENTALE",
-    title: "1 SEUL TOURNAGE = 30 JOURS DE VISIBILITÉ.",
+    surtitle: "ZÉRO CHARGE MENTALE • VILLEFRANCHE, BEAUJOLAIS & LYON",
+    title: "1 SEUL TOURNAGE CHEZ VOUS = 30 JOURS DE VISIBILITÉ.",
     steps: [
       {
         number: "01",
@@ -298,7 +299,7 @@ export const BRAND_CONTENT = {
 
   pricing: {
     topBadge: "3 FORMULES CLÉS EN MAIN • 1 SEUL TOURNAGE",
-    title: "NOS 3 OFFRES !",
+    title: "NOS 3 OFFRES RÉSEAUX SOCIAUX !",
     subtitle:
       "1 MOIS DE CONTENU À POSTER TOUS LES JOURS SUR VOS RÉSEAUX SOCIAUX !",
     reassuranceBadge: "Devis gratuit sous 24h • Sans engagement • Adapté aux commerces & TPE",
@@ -310,7 +311,12 @@ export const BRAND_CONTENT = {
         volumeSublabel: "Prêts à poster • Sur devis",
         idealFor:
           "Assurer une présence visuelle quotidienne, propre et régulière.",
-        features: ["31 PHOTOS DE PUBLICATIONS", "CONSEILS STRATÉGIQUES"],
+        features: [
+          "TOURNAGE SUR PLACE INCLUS",
+          "31 PHOTOS DE PUBLICATIONS RETOUCHÉES",
+          "FORMATS PRÊTS À POSTER",
+          "CONSEILS STRATÉGIQUES",
+        ],
         ctaText: "Choisir l'offre Essentiel",
         reactionBadge: "heart",
       },
@@ -355,7 +361,7 @@ export const BRAND_CONTENT = {
 
   faq: {
     surtitle: "QUESTIONS FRÉQUENTES",
-    title: "TOUT SAVOIR AVANT DE LANCER VOTRE MOIS DE CONTENU.",
+    title: "TOUT SAVOIR SUR VOTRE CRÉATION DE CONTENU À VILLEFRANCHE & LYON.",
     items: [
       {
         question: "Dans quelle zone géographique vous déplacez-vous pour les tournages ?",
@@ -409,11 +415,12 @@ export const BRAND_CONTENT = {
   contactForm: {
     title: "Demander un devis / Réserver mon tournage",
     intro:
-      "Sélectionnez la formule qui correspond à vos objectifs : nous vous recontactons rapidement avec une proposition adaptée.",
+      "Sélectionnez la formule qui correspond à vos objectifs : nous vous rappelons rapidement avec une proposition adaptée.",
+    quickCallLabel: "Pressé ? Appeler directement le 06.14.30.88.01",
     fields: {
       name: { label: "Nom & Entreprise", placeholder: "Ex : Julie — Boulangerie du Centre" },
-      email: { label: "E-mail", placeholder: "vous@entreprise.fr" },
       phone: { label: "Téléphone", placeholder: "06 00 00 00 00" },
+      email: { label: "E-mail (optionnel)", placeholder: "vous@entreprise.fr" },
       offer: { label: "Formule souhaitée" },
       message: {
         label: "Votre message (optionnel)",

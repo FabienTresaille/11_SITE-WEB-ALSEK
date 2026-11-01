@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
-import { AlertCircle, CheckCircle2, ChevronDown, Loader2, MessageCircle, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, Loader2, MessageCircle, Phone, Send } from "lucide-react";
 import { BRAND_CONTENT } from "@/data/content";
 import { trackLeadEvent } from "@/components/analytics/TrackingScripts";
 
@@ -22,7 +22,7 @@ const OFFER_VALUES: readonly string[] = BRAND_CONTENT.footer.packOptions.map((o)
 const HASH_PREFIX = "#offre-";
 
 const inputClass =
-  "w-full rounded-xl border-2 border-[#0B0F29]/15 bg-white px-3.5 py-2.5 text-xs sm:text-sm font-medium text-[#0B0F29] placeholder:text-[#0B0F29]/40 focus:border-[#1E3AFF] focus:outline-none transition-colors";
+  "w-full rounded-xl border-2 border-[#0B0F29]/15 bg-white px-3.5 py-2.5 text-base sm:text-sm font-medium text-[#0B0F29] placeholder:text-[#0B0F29]/40 focus:border-[#1E3AFF] focus:outline-none transition-colors";
 const labelClass =
   "block text-[11px] font-extrabold uppercase tracking-wider text-[#0B0F29] mb-1.5";
 
@@ -149,7 +149,17 @@ export default function ContactForm({ selectedOffer, onSelectOffer }: ContactFor
         ) : (
           <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <h3 className="text-lg sm:text-xl font-extrabold uppercase tracking-tight mb-1.5">{copy.title}</h3>
-            <p className="text-xs sm:text-sm text-[#0B0F29]/70 mb-5">{copy.intro}</p>
+            <p className="text-xs sm:text-sm text-[#0B0F29]/70 mb-4">{copy.intro}</p>
+
+            {/* Rappel d'appel direct en 1 tap au-dessus du formulaire sur mobile */}
+            <a
+              href={BRAND_CONTENT.identity.phoneHref}
+              aria-label={`Appeler alsek au ${BRAND_CONTENT.identity.phone}`}
+              className="lg:hidden mb-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B0F29] hover:bg-[#1E3AFF] text-white font-extrabold uppercase tracking-wider py-2.5 px-3.5 text-[11px] transition-colors shadow-sm"
+            >
+              <Phone className="w-3.5 h-3.5 text-[#00E676] shrink-0" />
+              <span>{copy.quickCallLabel}</span>
+            </a>
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
               {/* Honeypot anti-spam : invisible pour les humains, hors tabulation */}
@@ -207,23 +217,6 @@ export default function ContactForm({ selectedOffer, onSelectOffer }: ContactFor
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className={labelClass}>
-                    {copy.fields.email.label}
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    required
-                    maxLength={160}
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={copy.fields.email.placeholder}
-                    className={inputClass}
-                  />
-                </div>
-                <div>
                   <label htmlFor="contact-phone" className={labelClass}>
                     {copy.fields.phone.label}
                   </label>
@@ -231,11 +224,30 @@ export default function ContactForm({ selectedOffer, onSelectOffer }: ContactFor
                     id="contact-phone"
                     name="phone"
                     type="tel"
+                    inputMode="tel"
+                    required
                     maxLength={30}
                     autoComplete="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={copy.fields.phone.placeholder}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="contact-email" className={labelClass}>
+                    {copy.fields.email.label}
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    inputMode="email"
+                    maxLength={160}
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={copy.fields.email.placeholder}
                     className={inputClass}
                   />
                 </div>

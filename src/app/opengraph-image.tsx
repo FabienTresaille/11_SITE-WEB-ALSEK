@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "alsek | MARKETING DIGITAL — 1 Mois de Contenu à Poster Tous les Jours sur Vos Réseaux Sociaux";
+  "alsek | MARKETING DIGITAL — Création Vidéo & Réseaux Sociaux à Villefranche-sur-Saône, Beaujolais & Lyon";
 export const size = {
   width: 1200,
   height: 630,
@@ -74,7 +74,7 @@ export default function OpenGraphImage() {
               color: "#00E676",
             }}
           >
-            1 TOURNAGE = 30 JOURS
+            1 TOURNAGE = 30 JOURS • VILLEFRANCHE & LYON
           </div>
         </div>
 
@@ -130,11 +130,11 @@ export default function OpenGraphImage() {
           <span
             style={{
               fontSize: 20,
-              fontWeight: 500,
-              color: "rgba(255, 255, 255, 0.78)",
+              fontWeight: 600,
+              color: "rgba(255, 255, 255, 0.85)",
             }}
           >
-            Photos • Stories • Shorts & Reels 9:16 • Vidéos Scénarisées
+            Villefranche-sur-Saône • Beaujolais • Lyon — Photos, Stories, Reels & TikTok 9:16
           </span>
           <span
             style={{

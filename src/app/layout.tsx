@@ -14,10 +14,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title:
-    "alsek | Agence Réseaux Sociaux & Création Vidéo à Villefranche-sur-Saône",
+  title: "alsek | Création Vidéo & Réseaux Sociaux Villefranche (69)",
   description:
-    "Agence marketing digital à Villefranche-sur-Saône et alentours (Beaujolais, Lyon). 1 seul tournage chez vous = 30 jours de photos, stories, Shorts, Reels et vidéos TikTok prêts à poster.",
+    "Agence vidéo & réseaux sociaux à Villefranche-sur-Saône, Beaujolais et Lyon. 1 tournage chez vous = 30 jours de Reels, TikTok, stories et photos prêts.",
   metadataBase: new URL("https://www.alsek.fr"),
   alternates: {
     canonical: "/",
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
     title:
       "alsek | Agence Réseaux Sociaux & Création Vidéo à Villefranche-sur-Saône",
     description:
-      "1 seul tournage dans vos locaux à Villefranche-sur-Saône & alentours = 30 jours de présence quotidienne sur Instagram, TikTok, Facebook et LinkedIn.",
+      "1 seul tournage dans vos locaux à Villefranche-sur-Saône, Beaujolais & Lyon = 30 jours de présence quotidienne sur Instagram, TikTok, Facebook et LinkedIn.",
     url: "https://www.alsek.fr",
     siteName: "alsek",
     locale: "fr_FR",
@@ -34,10 +33,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "alsek | Agence Réseaux Sociaux & Création Vidéo à Villefranche-sur-Saône",
+    title: "alsek | Création Vidéo & Réseaux Sociaux Villefranche (69)",
     description:
-      "1 seul tournage à Villefranche-sur-Saône & alentours = 30 jours de photos, stories et vidéos verticales 9:16 prêts à poster.",
+      "1 seul tournage à Villefranche-sur-Saône, Beaujolais & Lyon = 30 jours de photos, stories et vidéos verticales 9:16 prêts à poster.",
+  },
+  other: {
+    "geo.region": "FR-69",
+    "geo.placename": "Villefranche-sur-Saône",
+    "geo.position": "45.9896;4.7188",
+    ICBM: "45.9896, 4.7188",
   },
 };
 

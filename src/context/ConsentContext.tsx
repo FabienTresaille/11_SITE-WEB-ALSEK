@@ -70,11 +70,18 @@ export function readStoredConsent(): CookieConsentState | null {
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
   const [consent, setConsent] = useState<CookieConsentState | null>(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [bannerReady, setBannerReady] = useState(false);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
 
   useEffect(() => {
-    setConsent(readStoredConsent());
+    const stored = readStoredConsent();
+    setConsent(stored);
     setHasHydrated(true);
+    if (stored === null) {
+      const timer = window.setTimeout(() => setBannerReady(true), 1500);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
   }, []);
 
   const persistConsent = useCallback((analytics: boolean, marketing: boolean) => {
@@ -121,7 +128,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setIsPreferencesOpen(false);
   }, []);
 
-  const isBannerVisible = hasHydrated && consent === null && !isPreferencesOpen;
+  const isBannerVisible = hasHydrated && bannerReady && consent === null && !isPreferencesOpen;
 
   const value = useMemo<ConsentContextValue>(
     () => ({

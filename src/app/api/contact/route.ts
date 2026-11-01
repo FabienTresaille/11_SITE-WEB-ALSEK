@@ -61,11 +61,11 @@ function validate(payload: ContactPayload): string | null {
   if (!payload.name || payload.name.length > MAX_LENGTH.name) {
     return "Merci d'indiquer votre nom.";
   }
-  if (!EMAIL_REGEX.test(payload.email) || payload.email.length > MAX_LENGTH.email) {
-    return "Merci d'indiquer une adresse e-mail valide.";
+  if (!payload.phone || !PHONE_REGEX.test(payload.phone)) {
+    return "Merci d'indiquer un numéro de téléphone valide.";
   }
-  if (payload.phone && !PHONE_REGEX.test(payload.phone)) {
-    return "Le numéro de téléphone semble invalide.";
+  if (payload.email && (!EMAIL_REGEX.test(payload.email) || payload.email.length > MAX_LENGTH.email)) {
+    return "L'adresse e-mail saisie semble invalide.";
   }
   const validOffers: readonly string[] = BRAND_CONTENT.footer.packOptions.map((o) => o.value);
   if (!validOffers.includes(payload.offer)) {
@@ -87,8 +87,8 @@ function offerLabel(value: string): string {
 function buildHtml(p: ContactPayload): string {
   const rows: Array<[string, string]> = [
     ["Nom", escapeHtml(p.name)],
-    ["E-mail", `<a href="mailto:${escapeHtml(p.email)}" style="color:#00E676;text-decoration:none;">${escapeHtml(p.email)}</a>`],
-    ["Téléphone", p.phone ? `<a href="tel:${escapeHtml(p.phone.replace(/[^+0-9]/g, ""))}" style="color:#00E676;text-decoration:none;">${escapeHtml(p.phone)}</a>` : "—"],
+    ["Téléphone", p.phone ? `<a href="tel:${escapeHtml(p.phone.replace(/[^+0-9]/g, ""))}" style="color:#00E676;text-decoration:none;font-weight:700;">${escapeHtml(p.phone)}</a>` : "—"],
+    ["E-mail", p.email ? `<a href="mailto:${escapeHtml(p.email)}" style="color:#00E676;text-decoration:none;">${escapeHtml(p.email)}</a>` : "—"],
     ["Offre choisie", `<span style="display:inline-block;background:#1E3AFF;color:#ffffff;padding:4px 12px;border-radius:999px;font-weight:700;">${escapeHtml(offerLabel(p.offer))}</span>`],
   ];
 
@@ -143,8 +143,8 @@ function buildText(p: ContactPayload): string {
     "Nouvelle demande de contact — alsek",
     "",
     `Nom : ${p.name}`,
-    `E-mail : ${p.email}`,
     `Téléphone : ${p.phone || "—"}`,
+    `E-mail : ${p.email || "—"}`,
     `Offre choisie : ${offerLabel(p.offer)}`,
     "",
     "Message :",
@@ -202,7 +202,9 @@ export async function POST(request: Request): Promise<Response> {
     await transporter.sendMail({
       from: `"alsek — Site web" <${SMTP_USER}>`,
       to: CONTACT_RECEIVER || BRAND_CONTENT.identity.email,
-      replyTo: `"${payload.name.replace(/"/g, "")}" <${payload.email}>`,
+      ...(payload.email
+        ? { replyTo: `"${payload.name.replace(/"/g, "")}" <${payload.email}>` }
+        : {}),
       subject: `Nouvelle demande — ${offerLabel(payload.offer)} — ${payload.name}`,
       text: buildText(payload),
       html: buildHtml(payload),
