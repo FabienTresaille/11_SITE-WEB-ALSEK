@@ -65,8 +65,8 @@ export default function PolitiqueConfidentialitePage() {
             nom de l&apos;entreprise.
           </li>
           <li>
-            <strong className="text-white">Coordonnées professionnelles :</strong> Adresse e-mail et
-            numéro de téléphone (optionnel).
+            <strong className="text-white">Coordonnées professionnelles :</strong> Numéro de
+            téléphone et adresse e-mail (optionnelle).
           </li>
           <li>
             <strong className="text-white">Projet éditorial :</strong> Formule envisagée (
@@ -102,8 +102,10 @@ export default function PolitiqueConfidentialitePage() {
         <p>
           L&apos;application web est hébergée au sein du {LEGAL_INFO.host.datacenter}. Lorsque vous
           acceptez explicitement les traceurs optionnels de mesure d&apos;audience ou publicitaires,
-          certaines données techniques de navigation peuvent être traitées par Google Ireland
-          Limited et Meta Platforms Ireland Limited selon les modalités détaillées dans notre{" "}
+          certaines données techniques de navigation anonymisées peuvent être traitées par Google
+          Ireland Limited (Google Analytics 4), Microsoft Ireland Operations Limited (Microsoft
+          Clarity — cartes de chaleur et ergonomie avec masquage automatique des saisies) et Meta
+          Platforms Ireland Limited (Pixel Meta) selon les modalités détaillées dans notre{" "}
           <Link
             href="/politique-cookies"
             className="text-[#00E676] underline underline-offset-2 hover:text-white"

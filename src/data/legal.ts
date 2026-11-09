@@ -8,7 +8,7 @@ export const NUMERO_SIRET = "[SIRET À COMPLÉTER]";
 export const ADRESSE_POSTALE = "[ADRESSE POSTALE À COMPLÉTER]";
 
 export interface CookieCategoryDoc {
-  id: "necessary" | "analytics" | "marketing";
+  id: "necessary" | "analytics" | "clarity" | "marketing";
   category: string;
   badge: string;
   requiresConsent: boolean;
@@ -38,7 +38,7 @@ export const LEGAL_INFO = {
   dpoEmail: "contact@alsek.fr",
   websiteUrl: "https://www.alsek.fr",
   websiteDisplay: "www.alsek.fr",
-  lastUpdated: "Octobre 2026",
+  lastUpdated: "Novembre 2026",
 
   host: {
     company: "OVH SAS (filiale de la société OVH Groupe SA)",
@@ -87,6 +87,17 @@ export const LEGAL_INFO = {
       purpose:
         "Mesure anonymisée des visites, du parcours de lecture et des clics sur les formules afin d'améliorer l'expérience du site.",
       duration: "13 mois maximum",
+    },
+    {
+      id: "clarity",
+      category: "Ergonomie & Cartes de chaleur (Analytics)",
+      badge: "Soumis à consentement",
+      requiresConsent: true,
+      cookies: "_clck, _clsk, CLID",
+      provider: "Microsoft Ireland Operations Limited (Microsoft Clarity)",
+      purpose:
+        "Analyse ergonomique anonymisée du parcours utilisateur (cartes de chaleur, défilement, zones de clics et détection des frictions d'affichage) avec masquage natif des champs de saisie.",
+      duration: "12 mois (_clck) / 24h (_clsk)",
     },
     {
       id: "marketing",

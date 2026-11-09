@@ -6,7 +6,7 @@ import { LEGAL_INFO } from "@/data/legal";
 export const metadata: Metadata = {
   title: "Politique de cookies (CNIL) | alsek",
   description:
-    "Gestion des cookies et traceurs sur www.alsek.fr conformément aux lignes directrices de la CNIL — Google Analytics 4 et Pixel Meta.",
+    "Gestion des cookies et traceurs sur www.alsek.fr conformément aux lignes directrices de la CNIL — Google Analytics 4, Microsoft Clarity et Pixel Meta.",
   robots: {
     index: false,
     follow: true,
@@ -36,7 +36,8 @@ export default function PolitiqueCookiesPage() {
         <ul className="space-y-1.5 text-xs sm:text-sm list-disc list-inside text-white/80">
           <li>
             <strong className="text-white">Zéro exécution avant accord :</strong> ni Google
-            Analytics (<code className="text-[#00E676]">gtag.js</code>), ni le Pixel Meta (
+            Analytics (<code className="text-[#00E676]">gtag.js</code>), ni Microsoft Clarity (
+            <code className="text-[#00E676]">clarity.ms</code>), ni le Pixel Meta (
             <code className="text-[#00E676]">fbevents.js</code>) ne sont chargés dans votre
             navigateur tant que vous n&apos;avez pas exprimé un consentement positif.
           </li>

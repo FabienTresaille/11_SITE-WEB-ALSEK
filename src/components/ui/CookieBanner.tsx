@@ -57,7 +57,7 @@ export default function CookieBanner() {
                   </p>
                   {/* Version mobile ultra-concise (2 lignes max) */}
                   <p className="sm:hidden text-[11px] text-white/85 leading-snug">
-                    <span className="font-extrabold text-white">Cookies :</span> mesure d&apos;audience (GA4) et Pixel Meta activés uniquement avec votre accord.{" "}
+                    <span className="font-extrabold text-white">Cookies :</span> mesure d&apos;audience (GA4, Clarity) et Pixel Meta activés uniquement avec votre accord.{" "}
                     <Link
                       href="/politique-cookies"
                       className="text-[#00E676] underline underline-offset-2 font-semibold"
@@ -68,9 +68,9 @@ export default function CookieBanner() {
                   {/* Version tablette / desktop complète */}
                   <p className="hidden sm:block mt-1 text-xs text-white/75 leading-relaxed">
                     Nous utilisons uniquement des traceurs soumis à votre accord pour mesurer
-                    l&apos;audience du site (Google Analytics) et évaluer nos campagnes réseaux
-                    sociaux (Pixel Meta). Aucun traceur publicitaire ou analytique n&apos;est
-                    activé sans votre choix.{" "}
+                    l&apos;audience et l&apos;ergonomie du site (Google Analytics, Microsoft Clarity)
+                    et évaluer nos campagnes réseaux sociaux (Pixel Meta). Aucun traceur
+                    publicitaire ou analytique n&apos;est activé sans votre choix.{" "}
                     <Link
                       href="/politique-cookies"
                       className="text-[#00E676] underline underline-offset-2 hover:text-white transition-colors"
@@ -188,22 +188,23 @@ export default function CookieBanner() {
                   </span>
                 </div>
 
-                {/* 2. Google Analytics 4 */}
+                {/* 2. Google Analytics 4 & Microsoft Clarity */}
                 <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4 flex items-start justify-between gap-4">
                   <div>
                     <span className="text-xs font-extrabold uppercase tracking-wider text-white">
-                      Mesure d&apos;audience (Google Analytics)
+                      Mesure d&apos;audience &amp; Ergonomie (GA4 &amp; Microsoft Clarity)
                     </span>
                     <p className="mt-1 text-[11px] text-white/65 leading-relaxed">
                       Nous aide à comprendre quelles réalisations et formules intéressent le
-                      plus nos visiteurs de manière agrégée.
+                      plus nos visiteurs (Google Analytics) et à améliorer l&apos;ergonomie de
+                      navigation via des cartes de chaleur anonymisées (Microsoft Clarity).
                     </p>
                   </div>
                   <button
                     type="button"
                     role="switch"
                     aria-checked={analyticsEnabled}
-                    aria-label="Activer ou désactiver la mesure d'audience Google Analytics"
+                    aria-label="Activer ou désactiver la mesure d'audience Google Analytics et Microsoft Clarity"
                     onClick={() => setAnalyticsEnabled((prev) => !prev)}
                     className={`relative shrink-0 w-11 h-6 rounded-full transition-colors cursor-pointer ${
                       analyticsEnabled ? "bg-[#00E676]" : "bg-white/20"
